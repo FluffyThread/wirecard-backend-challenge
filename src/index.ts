@@ -1,6 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import { AddressInfo } from "net";
+import { clientsRouter } from './routes/clientsRouter';
+import { paymentRouter } from './routes/paymentRouter';
 
 export const app = express()
 
@@ -16,3 +18,7 @@ const server = app.listen(process.env.PORT || 3003, () => {
       console.error("failure upon starting server");
   }
 })
+
+app.use("/clients", clientsRouter)
+
+app.use("/payment", paymentRouter)
