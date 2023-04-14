@@ -26,10 +26,7 @@ export class PaymentController {
         }
       };
 
-    updatePaymentStatus = async(
-        req: Request,
-        res: Response
-    ) =>  {
+    updatePaymentStatus = async(req: Request, res: Response) =>  {
         try {
             const { id } = req.params;
             const { status } = req.body;
@@ -45,4 +42,14 @@ export class PaymentController {
             res.status(error.statusCode || 400).send({ message: error.message });
         }
     }
+
+    // getUserPayments = async (req: Request, res: Response) => {
+    //     try {
+    //       const userId = req.params.id;
+    //       const payments = await paymentBusiness.getClientPayments(userId);
+    //       res.status(200).send({ payments });
+    //     } catch (error:any) {
+    //       res.status(400).send({ error: error.message });
+    //     }
+    //   }
 }

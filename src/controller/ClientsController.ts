@@ -20,4 +20,17 @@ export class ClientsController {
             res.send({error:error.message})
         }
     }
+    getClientPayments = async (req:Request, res:Response) => {
+        try {
+          const { id } = req.params;
+
+          let result = await clientsBusiness.getClientWithPayments(id)
+      
+          res.status(200).send( result );
+        } catch (error:any) {
+          res.status(400).send({ error: error.message });
+        }
+      };
+      
+      
 }

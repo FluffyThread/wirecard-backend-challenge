@@ -28,4 +28,14 @@ export class ClientsBusiness {
             
         }
     }
+
+    getClientWithPayments = async(userId:string) => {
+        if (!userId) {
+            throw new Error("Missing ID");
+        }
+        let response = clientsDatabase.getClientWithPayments(userId)
+
+        return response
+
+    }
 }

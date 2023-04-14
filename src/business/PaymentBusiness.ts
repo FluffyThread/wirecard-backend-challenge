@@ -10,7 +10,7 @@ export class PaymentBusiness {
     processPayment = async (payment: Payment) => {
         // Verifica se o tipo de pagamento é válido
         if (payment.type !== 'boleto' && payment.type !== 'credit_card') {
-            throw new Error('Invalid payment type');
+            throw new Error("Invalid payment type. Please use one of the following options: 'boleto' or 'credit_card'");
         }
 
         // Verifica se o valor do pagamento é maior do que zero
@@ -84,5 +84,16 @@ export class PaymentBusiness {
 
       }
 
+    // getClientPayments = async(id:string) => {
+    //     try {
+    //         const payments = await paymentDatabase.getClientPayments(id);
+    //         if (payments.length < 1) {
+    //             throw new Error("No payment has been made by this user");     
+    //         }
+    //         return payments;
+    //     } catch (error:any) {
+    //         throw new Error(error.message);
+    //     }
+    // }
 
 }

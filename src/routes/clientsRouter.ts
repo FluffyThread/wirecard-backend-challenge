@@ -6,3 +6,5 @@ export const clientsRouter = express.Router()
 const clientsController = new ClientsController()
 
 clientsRouter.post("/register", clientsController.register)
+
+clientsRouter.get("/payments/:id", clientsController.getClientPayments)
