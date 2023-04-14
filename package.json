@@ -1,0 +1,37 @@
+{
+  "name": "wirecard-backend-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev ./src/index.ts",
+    "start": "tsc && node ./build/src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FluffyThread/wirecard-backend-challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FluffyThread/wirecard-backend-challenge/issues"
+  },
+  "homepage": "https://github.com/FluffyThread/wirecard-backend-challenge#readme",
+  "dependencies": {
+    "@types/node": "^18.15.11",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "knex": "^2.4.2",
+    "mysql": "^2.18.1",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/knex": "^0.16.1",
+    "ts-node-dev": "^2.0.0"
+  }
+}
