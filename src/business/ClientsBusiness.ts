@@ -43,4 +43,17 @@ export class ClientsBusiness {
         return response
 
     }
+
+    // deleteClient = async (id:string) => {
+    //     try {
+    //         if (!id) {
+    //             throw new Error("Missing ID");    
+    //         }
+    //         await this.clientDatabase.deleteClient(id)
+    //         let response = await this.clientDatabase.getClientWithPayments
+            
+    //     } catch (error:any) {
+            
+    //     }
+    // }
 }

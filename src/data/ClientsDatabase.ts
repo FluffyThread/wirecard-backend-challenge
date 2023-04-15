@@ -62,4 +62,14 @@ export class ClientsDatabase extends BaseDatabase {
             throw new Error(error.sqlMessage || error.message);   
         }
     }
+
+    // deleteClient = async(id:string):Promise<void> => {
+    //     try {
+    //         await BaseDatabase.connection(ClientsDatabase.TABLE_NAME)
+    //         .delete()
+    //         .where({id})
+    //     } catch (error:any) {
+    //         throw new Error(error.sqlMessage || error.message);      
+    //     }
+    // }
 }

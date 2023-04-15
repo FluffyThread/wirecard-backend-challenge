@@ -3,7 +3,7 @@ import { PaymentDatabase } from "../src/data/PaymentDatabase";
 import { Payment } from "../src/models/PaymentDTO";
 
 
-describe('PaymentBusiness', () => {
+describe('processPayment', () => {
     let paymentBusiness: PaymentBusiness;
     let paymentDatabase: PaymentDatabase;
   
@@ -91,3 +91,73 @@ describe('PaymentBusiness', () => {
         expect(response.cardIssuer).toBeNull();
       });
 })
+
+describe("updatePaymentStatus", () => {
+    let paymentBusiness: PaymentBusiness;
+    let paymentDatabase: jest.Mocked<PaymentDatabase>;
+  
+    beforeEach(() => {
+      paymentDatabase = {
+        processPayment: jest.fn(),
+        updatePaymentStatus: jest.fn(),
+      } as unknown as jest.Mocked<PaymentDatabase>;
+  
+      paymentBusiness = new PaymentBusiness(paymentDatabase);
+    });
+  
+    test("should throw an error when missing input", async () => {
+      expect.assertions(1);
+      try {
+        await paymentBusiness.updatePaymentStatus("", "");
+      } catch (error:any) {
+        expect(error.message).toBe("Missing input");
+      }
+    });
+  
+    test("should throw an error when invalid status is provided", async () => {
+      expect.assertions(1);
+      try {
+        await paymentBusiness.updatePaymentStatus("123", "invalid");
+      } catch (error:any) {
+        expect(error.message).toBe("Invalid status. Please use one of the following options: 'authorized', 'paid', 'refunded', or 'chargedback'.");
+      }
+    });
+  
+    test("should throw an error when payment is not found", async () => {
+        const getPaymentByIdMock = jest.fn().mockImplementation(async (clientId: string) => {
+            return undefined
+          });
+      paymentDatabase.getPaymentById = getPaymentByIdMock
+  
+      expect.assertions(1);
+      try {
+        await paymentBusiness.updatePaymentStatus("123", "authorized");
+      } catch (error:any) {
+        expect(error.message).toBe("Payment not found");
+      }
+    });
+  
+    test("should update payment status successfully", async () => {
+      const mockPayment:Payment = {
+        id: "123",
+        amount: 100,
+        status: "authorized",
+        type:"boleto",
+        client_id: "456",
+      };
+
+      const getPaymentByIdMock = jest.fn().mockImplementation(async (clientId: string) => {
+        return mockPayment
+      });
+  
+      paymentDatabase.getPaymentById = getPaymentByIdMock
+  
+      await paymentBusiness.updatePaymentStatus("123", "paid");
+  
+      expect(paymentDatabase.getPaymentById).toHaveBeenCalledWith("123");
+      expect(paymentDatabase.updatePaymentStatus).toHaveBeenCalledWith("123", "PAID");
+    });
+  });
+ 
+  
+  

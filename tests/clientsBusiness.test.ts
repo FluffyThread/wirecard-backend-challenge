@@ -4,11 +4,11 @@ import { ClientsDTO } from "../src/models/ClientsDTO";
 import { Payment } from "../src/models/PaymentDTO";
 
 
-jest.mock('../src/data/ClientsDatabase', () => ({
-    ClientsDatabase: jest.fn().mockImplementation(() => ({
-      register: jest.fn(),
-    })),
-  }));
+// jest.mock('../src/data/ClientsDatabase', () => ({
+//     ClientsDatabase: jest.fn().mockImplementation(() => ({
+//       register: jest.fn(),
+//     })),
+//   }));
 
 describe("register", () => {
     let clientsBusiness: ClientsBusiness;
