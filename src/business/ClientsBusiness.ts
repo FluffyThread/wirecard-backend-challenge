@@ -7,6 +7,8 @@ const idGenerator = new IdGenerator()
 
 export class ClientsBusiness {
 
+    
+
     register = async(client:client) => {
         try {
             if (!client.name || !client.email || !client.cpf) {

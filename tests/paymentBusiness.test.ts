@@ -78,12 +78,16 @@ describe('PaymentBusiness', () => {
           client_id: 'client_id',
         };
     
-        await paymentBusiness.processPayment(payment);
+        let response = await paymentBusiness.processPayment(payment);
     
         expect(paymentDatabase.createPayment).toHaveBeenCalledWith(expect.objectContaining({
           type: 'boleto',
           amount: 100,
           client_id: 'client_id',
         }));
+        expect(response.paymentId).toBeDefined();
+        expect(response.status).toBe('Payment created successfully');
+        expect(response.boletoNumber).toBeDefined();
+        expect(response.cardIssuer).toBeNull();
       });
 })
