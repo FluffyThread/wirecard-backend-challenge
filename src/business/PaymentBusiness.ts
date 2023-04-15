@@ -4,7 +4,6 @@ import { IdGenerator } from "../services/IdGenerator";
 import { generateBoletoNumber } from "../services/boletoGenerator";
 import { validateCreditCardNumber } from "../services/isCreditCardValid";
 
-const paymentDatabase = new PaymentDatabase()
 const idGenerator = new IdGenerator()
 export class PaymentBusiness {
 

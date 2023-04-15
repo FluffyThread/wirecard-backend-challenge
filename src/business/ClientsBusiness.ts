@@ -7,7 +7,11 @@ const idGenerator = new IdGenerator()
 
 export class ClientsBusiness {
 
-    
+    clientDatabase: ClientsDatabase;
+
+    constructor(clientDatabase: ClientsDatabase) {
+      this.clientDatabase = clientDatabase;
+    }
 
     register = async(client:client) => {
         try {
@@ -22,7 +26,6 @@ export class ClientsBusiness {
                 cpf:client.cpf
             }
             await clientsDatabase.register(input)
-            console.log({business:id});
             
             return id
         } catch (error:any) {
