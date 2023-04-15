@@ -36,16 +36,18 @@ export class PaymentBusiness {
             throw new Error('Card information is incomplete');
         }
 
+
         let creditCardNumber = payment.card_number as string
-        let cardData = validateCreditCardNumber(creditCardNumber)
+        let cardData = null
+ 
         // Verifica se o cartão de crédito é valido
         if (payment.type === "credit_card") {
-
-            if (!cardData.isValid) {
-                throw new Error("Credit card is invalid");
-            }
+          cardData = validateCreditCardNumber(creditCardNumber)
+          if (!cardData.isValid) {
+            throw new Error("Credit card is invalid");
+          }
         }
-
+        
         const id = idGenerator.generateId()
 
         let paymentData: Payment = {
@@ -60,7 +62,7 @@ export class PaymentBusiness {
             paymentId:id,
             status:"Payment created successfully",
             boletoNumber: payment.type === "boleto" ? paymentData.boleto_number : null,
-            cardIssuer: payment.type === "credit_card" ? cardData.issuer : null
+            cardIssuer: cardData !== null ? cardData.issuer : null
         }
         return response
     }

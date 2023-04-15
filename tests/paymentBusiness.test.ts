@@ -71,19 +71,19 @@ describe('PaymentBusiness', () => {
         await expect(paymentBusiness.processPayment(payment)).rejects.toThrow('Credit card is invalid');
       });
     
-    //   it('should create a payment successfully with boleto type', async () => {
-    //     const payment:Payment = {
-    //       type: 'boleto',
-    //       amount: 100,
-    //       client_id: 'client_id',
-    //     };
+      it('should create a payment successfully with boleto type', async () => {
+        const payment:Payment = {
+          type: 'boleto',
+          amount: 100,
+          client_id: 'client_id',
+        };
     
-    //     await paymentBusiness.processPayment(payment);
+        await paymentBusiness.processPayment(payment);
     
-    //     expect(paymentDatabase.createPayment).toHaveBeenCalledWith(expect.objectContaining({
-    //       type: 'boleto',
-    //       amount: 100,
-    //       client_id: 'client_id',
-    //     }));
-    //   });
+        expect(paymentDatabase.createPayment).toHaveBeenCalledWith(expect.objectContaining({
+          type: 'boleto',
+          amount: 100,
+          client_id: 'client_id',
+        }));
+      });
 })
