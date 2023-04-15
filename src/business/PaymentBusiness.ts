@@ -8,6 +8,7 @@ const paymentDatabase = new PaymentDatabase()
 const idGenerator = new IdGenerator()
 export class PaymentBusiness {
     processPayment = async (payment: Payment) => {
+
         // Verifica se o tipo de pagamento é válido
         if (payment.type !== 'boleto' && payment.type !== 'credit_card') {
             throw new Error("Invalid payment type. Please use one of the following options: 'boleto' or 'credit_card'");
@@ -28,12 +29,13 @@ export class PaymentBusiness {
             throw new Error('Card information is incomplete');
         }
 
+        let creditCardNumber = payment.card_number as string
+        let cardData = validateCreditCardNumber(creditCardNumber)
         // Verifica se o cartão de crédito é valido
         if (payment.type === "credit_card") {
-            const creditCardNumber = payment.card_number as string
-            if (!validateCreditCardNumber(creditCardNumber)) {
-                throw new Error("Credit card is invalid");
 
+            if (!cardData.isValid) {
+                throw new Error("Credit card is invalid");
             }
         }
 
@@ -50,7 +52,8 @@ export class PaymentBusiness {
         const response = {
             paymentId:id,
             status:"Payment created successfully",
-            boletoNumber: payment.type === "boleto" ? paymentData.boleto_number : null
+            boletoNumber: payment.type === "boleto" ? paymentData.boleto_number : null,
+            cardIssuer: payment.type === "credit_card" ? cardData.issuer : null
         }
         return response
     }

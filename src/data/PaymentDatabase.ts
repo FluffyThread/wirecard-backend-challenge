@@ -35,17 +35,6 @@ export class PaymentDatabase extends BaseDatabase {
         }
     }
 
-    // getClientPayments = async (clientId: string): Promise<Payment[]> => {
-    //     try {
-    //         const result = await BaseDatabase.connection()
-    //             .select("*")
-    //             .from(PaymentDatabase.TABLE_NAME)
-    //             .where({ client_id: clientId });
 
-    //         return result;
-    //     } catch (error: any) {
-    //         throw new Error(error.sqlMessage || error.message);
-    //     }
-    // }
 
 }
