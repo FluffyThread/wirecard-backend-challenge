@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { PaymentBusiness } from "../business/PaymentBusiness";
 import { Payment } from "../models/PaymentDTO";
+import { PaymentDatabase } from "../data/PaymentDatabase";
 
-const paymentBusiness = new PaymentBusiness()
+const paymentDatabase = new PaymentDatabase()
+const paymentBusiness = new PaymentBusiness(paymentDatabase)
 
 export class PaymentController {
     createPayment = async (req: Request, res: Response) => {

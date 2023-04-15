@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev ./src/index.ts",
     "start": "tsc && node ./build/src/index.js",
-    "testFunction":"ts-node-dev ./src/services/test.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "testFunction": "ts-node-dev ./src/services/test.ts",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -36,7 +36,10 @@
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.0",
     "@types/knex": "^0.16.1",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
     "ts-node-dev": "^2.0.0"
   }
 }

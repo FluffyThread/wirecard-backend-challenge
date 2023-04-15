@@ -7,6 +7,13 @@ import { validateCreditCardNumber } from "../services/isCreditCardValid";
 const paymentDatabase = new PaymentDatabase()
 const idGenerator = new IdGenerator()
 export class PaymentBusiness {
+
+  paymentDatabase: PaymentDatabase;
+
+  constructor(paymentDatabase: PaymentDatabase) {
+    this.paymentDatabase = paymentDatabase;
+  }
+
     processPayment = async (payment: Payment) => {
 
         // Verifica se o tipo de pagamento é válido
@@ -47,7 +54,7 @@ export class PaymentBusiness {
             boleto_number: payment.type === "boleto" ? generateBoletoNumber() : undefined
           };
 
-        await paymentDatabase.createPayment(paymentData)
+        await this.paymentDatabase.createPayment(paymentData)
 
         const response = {
             paymentId:id,
@@ -59,7 +66,7 @@ export class PaymentBusiness {
     }
 
     getPaymentById = async (id: string): Promise<Payment> => {
-        const payment:any = await paymentDatabase.getPaymentById(id);
+        const payment:any = await this.paymentDatabase.getPaymentById(id);
     
         if (!payment) {
           throw new Error("Payment not found");
@@ -77,13 +84,13 @@ export class PaymentBusiness {
             throw new Error("Invalid status. Please use one of the following options: 'authorized', 'paid', 'refunded', or 'chargedback'.");
         }
     
-        const payment = await paymentDatabase.getPaymentById(id);
+        const payment = await this.paymentDatabase.getPaymentById(id);
     
         if (!payment) {
           throw new Error("Payment not found");
         }
     
-        await paymentDatabase.updatePaymentStatus(id, status.toUpperCase());
+        await this.paymentDatabase.updatePaymentStatus(id, status.toUpperCase());
 
       }
 
