@@ -7,7 +7,8 @@
     "dev": "ts-node-dev ./src/index.ts",
     "start": "tsc && node ./build/src/index.js",
     "testFunction": "ts-node-dev ./src/services/test.ts",
-    "test": "jest"
+    "test-payment": "jest ./paymentBusiness.test.ts",
+    "test-clients": "jest ./clientsBusiness.test.ts"
   },
   "repository": {
     "type": "git",

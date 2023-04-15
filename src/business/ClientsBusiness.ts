@@ -2,7 +2,7 @@ import { ClientsDatabase } from "../data/ClientsDatabase";
 import { client } from "../models/ClientsDTO";
 import { IdGenerator } from "../services/IdGenerator";
 
-const clientsDatabase = new ClientsDatabase()
+
 const idGenerator = new IdGenerator()
 
 export class ClientsBusiness {
@@ -25,7 +25,7 @@ export class ClientsBusiness {
                 email:client.email,
                 cpf:client.cpf
             }
-            await clientsDatabase.register(input)
+            await this.clientDatabase.register(input)
             
             return id
         } catch (error:any) {
@@ -38,7 +38,7 @@ export class ClientsBusiness {
         if (!userId) {
             throw new Error("Missing ID");
         }
-        let response = clientsDatabase.getClientWithPayments(userId)
+        let response = this.clientDatabase.getClientWithPayments(userId)
 
         return response
 
