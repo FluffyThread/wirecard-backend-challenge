@@ -45,6 +45,16 @@ export class PaymentController {
         }
     }
 
+    deletePayment = async (req:Request, res:Response) => {
+        try {
+          const { id } = req.params;
+          let response = await paymentBusiness.deletePayment(id)
+          res.status(200).send(response)
+        } catch (error:any) {
+          res.send({error: error.message})
+        }
+      }
+
     // getUserPayments = async (req: Request, res: Response) => {
     //     try {
     //       const userId = req.params.id;

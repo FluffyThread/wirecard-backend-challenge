@@ -14,12 +14,12 @@ export class PaymentDatabase extends BaseDatabase {
         }
     }
 
-    getPaymentById = async (id: string) => {
+    getPaymentById = async (id: string):Promise<Payment> => {
         try {
             let result = await BaseDatabase.connection(PaymentDatabase.TABLE_NAME)
                 .select()
                 .where({ id })
-            return result
+            return result[0]
         } catch (error: any) {
             throw new Error(error.message || error.sqlMessage);
         }
@@ -49,6 +49,15 @@ export class PaymentDatabase extends BaseDatabase {
         }
     }
 
+    deletePayment = async(id:string):Promise<void> => {
+        try {
+            await BaseDatabase.connection(PaymentDatabase.TABLE_NAME)
+            .delete()
+            .where({id})
+        } catch (error:any) {
+            throw new Error(error.sqlMessage || error.message);      
+        }
+    }
 
 
 }

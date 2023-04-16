@@ -95,6 +95,27 @@ export class PaymentBusiness {
 
       }
 
+      deletePayment = async (id:string) => {
+        try {
+            if (!id) {
+                throw new Error("Missing ID");    
+            }
+            let result:Payment = await this.paymentDatabase.getPaymentById(id)
+            if (!result) {
+                throw new Error("No payment was found");
+            }
+            
+            await this.paymentDatabase.deletePayment(id)
+            let response = {
+                status:"Payment was successfully deleted!",
+            }
+            return response
+        } catch (error:any) {
+            throw new Error(error.message);
+            
+        }
+    }
+
     // getClientPayments = async(id:string) => {
     //     try {
     //         const payments = await paymentDatabase.getClientPayments(id);
