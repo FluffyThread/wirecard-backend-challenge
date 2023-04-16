@@ -10,11 +10,11 @@ const paymentDatabase = new PaymentDatabase()
 export class ClientsBusiness {
 
     clientDatabase: ClientsDatabase;
+    paymentDatabase: PaymentDatabase
 
-
-    constructor(clientDatabase: ClientsDatabase) {
+    constructor(clientDatabase: ClientsDatabase, paymentDatabase : PaymentDatabase) {
       this.clientDatabase = clientDatabase
-
+      this.paymentDatabase = paymentDatabase
     }
 
     register = async(client:client) => {
@@ -47,7 +47,7 @@ export class ClientsBusiness {
             if (!client) {
                 throw new Error("Client does not exist");
             }
-            let payments = await paymentDatabase.getPaymentByUserId(userId)
+            let payments = await this.paymentDatabase.getPaymentByUserId(userId)
             console.log(payments);
             
             if (!payments) {

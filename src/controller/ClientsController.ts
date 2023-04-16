@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { ClientsBusiness } from "../business/ClientsBusiness";
 import { ClientsDatabase } from "../data/ClientsDatabase";
+import { PaymentDatabase } from "../data/PaymentDatabase";
 
 
 const clientDatabase = new ClientsDatabase()
-const clientsBusiness = new ClientsBusiness(clientDatabase)
+const paymentDatabase = new PaymentDatabase()
+const clientsBusiness = new ClientsBusiness(clientDatabase, paymentDatabase)
 
 export class ClientsController {
     register = async(req:Request, res:Response) => {
