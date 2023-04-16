@@ -1,5 +1,5 @@
 import { ClientsDatabase } from "../data/ClientsDatabase";
-import { client } from "../models/ClientsDTO";
+import { ClientsDTO, client } from "../models/ClientsDTO";
 import { IdGenerator } from "../services/IdGenerator";
 
 
@@ -44,16 +44,35 @@ export class ClientsBusiness {
 
     }
 
-    // deleteClient = async (id:string) => {
-    //     try {
-    //         if (!id) {
-    //             throw new Error("Missing ID");    
-    //         }
-    //         await this.clientDatabase.deleteClient(id)
-    //         let response = await this.clientDatabase.getClientWithPayments
+    getAllClients = async() => {
+        try {
+            let response = await this.clientDatabase.getAll()
+            if (response.length < 1) {
+                throw new Error("No client was found");
+            }
+            return response
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
+
+    deleteClient = async (id:string) => {
+        try {
+            if (!id) {
+                throw new Error("Missing ID");    
+            }
+            let result:ClientsDTO[] = await this.clientDatabase.getById(id)
+            if (!result) {
+                throw new Error("No client was found");
+            }
+            await this.clientDatabase.deleteClient(id)
+            let response = {
+                status:"Client was successfully deleted!",
+            }
+            return response
+        } catch (error:any) {
+            throw new Error(error.message);
             
-    //     } catch (error:any) {
-            
-    //     }
-    // }
+        }
+    }
 }

@@ -63,13 +63,34 @@ export class ClientsDatabase extends BaseDatabase {
         }
     }
 
-    // deleteClient = async(id:string):Promise<void> => {
-    //     try {
-    //         await BaseDatabase.connection(ClientsDatabase.TABLE_NAME)
-    //         .delete()
-    //         .where({id})
-    //     } catch (error:any) {
-    //         throw new Error(error.sqlMessage || error.message);      
-    //     }
-    // }
+    getAll = async() => {
+        try {
+            let response = await BaseDatabase.connection(ClientsDatabase.TABLE_NAME)
+            .select()
+            return response
+        } catch (error:any) {
+            throw new Error(error.sqlMessage || error.message);    
+        }
+    }
+
+    getById = async(id:string):Promise<ClientsDTO[]> => {
+        try {
+            let response = await BaseDatabase.connection(ClientsDatabase.TABLE_NAME)
+            .select()
+            .where({id})
+            return response[0]
+        } catch (error:any) {
+            throw new Error(error.message || error.sqlMessage);      
+        }
+    }
+
+    deleteClient = async(id:string):Promise<void> => {
+        try {
+            await BaseDatabase.connection(ClientsDatabase.TABLE_NAME)
+            .delete()
+            .where({id})
+        } catch (error:any) {
+            throw new Error(error.sqlMessage || error.message);      
+        }
+    }
 }

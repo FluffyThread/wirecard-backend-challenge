@@ -33,6 +33,23 @@ export class ClientsController {
           res.status(400).send({ error: error.message });
         }
       };
-      
-      
+
+      getAllClients = async(req:Request, res:Response) => {
+        try {
+          let response = await clientsBusiness.getAllClients()
+          res.status(200).send(response)
+        } catch (error:any) {
+          res.status(404).send(error.message)
+        }
+      }
+
+      deleteClient = async (req:Request, res:Response) => {
+        try {
+          const { id } = req.params;
+          let response = await clientsBusiness.deleteClient(id)
+          res.status(200).send(response)
+        } catch (error:any) {
+          res.send({error: error.message})
+        }
+      }
 }
