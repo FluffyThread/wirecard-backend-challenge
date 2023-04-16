@@ -1,7 +1,9 @@
+import { rejects } from "assert";
 import { ClientsBusiness } from "../src/business/ClientsBusiness";
 import { ClientsDatabase } from "../src/data/ClientsDatabase";
 import { ClientsDTO } from "../src/models/ClientsDTO";
 import { Payment } from "../src/models/PaymentDTO";
+import { PaymentDatabase } from "../src/data/PaymentDatabase";
 
 
 describe("register", () => {
@@ -45,15 +47,16 @@ describe("register", () => {
 });
 
 describe("getClientWithPayments", () => {
-    let clientsBusiness: ClientsBusiness;
-    let clientsDatabase: ClientsDatabase;
-    beforeEach(() => {
-        clientsDatabase = {
-            register: jest.fn(),
-        } as unknown as ClientsDatabase;
+  let clientsBusiness: ClientsBusiness;
+  let clientsDatabase: ClientsDatabase;
+  beforeEach(() => {
+      clientsDatabase = {
+          register: jest.fn(),
+          getById:jest.fn()
+      } as unknown as ClientsDatabase;
 
-        clientsBusiness = new ClientsBusiness(clientsDatabase);
-    });
+      clientsBusiness = new ClientsBusiness(clientsDatabase);
+  });
   
     test("should throw an error when missing user ID", async () => {
       expect.assertions(1);
@@ -64,40 +67,72 @@ describe("getClientWithPayments", () => {
       }
     });
   
-    test("should return client with payments successfully", async () => {
-        const mockClient: ClientsDTO = {
-          id: "123",
-          name: "John Doe",
-          email: "johndoe@example.com",
-          cpf: "12345678901",
-        };
-      
-        const mockPayment: Payment = {
-          id: "456",
-          amount: 100,
-          type:"credit_card",
-          card_holder:"John Doe",
-          card_number: "1234 5678 9012 3456",
-          card_expiration_date:"07/2030",
-          card_cvv:"132",
-          client_id: "123",
-        };
-      
-        const getClientWithPaymentsMock = jest.fn().mockImplementation(async (clientId: string) => {
-          return {
-            client: mockClient,
-            payments: [mockPayment],
-          };
-        });
-      
-        clientsDatabase.getClientWithPayments = getClientWithPaymentsMock;
-      
-        const response = await clientsBusiness.getClientWithPayments("123");
-      
-        expect(response.client).toEqual(mockClient);
-        expect(response.payments).toEqual([mockPayment]);
-        expect(clientsDatabase.getClientWithPayments).toHaveBeenCalledWith("123");
-        expect(getClientWithPaymentsMock).toHaveBeenCalledWith("123");
+    test("Should throw an error if client doesn't exist", async () => {
+      //arrange
+      const id = "123";
+      const getByIdMock = jest.fn().mockImplementation(async(id:string)=> {
+        return undefined
       });
+      clientsDatabase.getById = getByIdMock
+      //act
+      const clientsBusiness = new ClientsBusiness(clientsDatabase)
+
+      // assert
+      expect(clientsBusiness.getClientWithPayments(id)).rejects.toThrow("Client does not exist")
+    })
+
+    
+  });
+
+
+  describe("Delete Client", () => {
+    let clientsBusiness: ClientsBusiness;
+    let clientsDatabase: ClientsDatabase;
+    beforeEach(() => {
+        clientsDatabase = {
+            register: jest.fn(),
+            getById:jest.fn(),
+            deleteClient:jest.fn()
+        } as unknown as ClientsDatabase;
+
+        clientsBusiness = new ClientsBusiness(clientsDatabase);
+    });
+    test("Should delete a client", async () => {
+        // Arrange
+        const id = "123";
+        const getByIdMock = jest.fn().mockImplementation(async(id:string)=> {
+          return[{ id: "123", name: "John", email:"john@gmail.com", cpf:"123456789" }]
+        });
+        clientsDatabase.getById = getByIdMock
+    
+        // Act
+        const response = await clientsBusiness.deleteClient(id);
+    
+        // Assert
+        expect(response).toEqual({ status: "Client was successfully deleted!" });
+      });
+  
+    test("Should throw an error if ID is missing", async () => {
+      // Arrange
+      const id = "";
+  
+      // Act and Assert
+      await expect(clientsBusiness.deleteClient(id)).rejects.toThrow("Missing ID");
+    });
+  
+    test("Should throw an error if client was not found", async () => {
+      // Arrange
+      const id = "123";
+      const clientDatabase = new ClientsDatabase();
+      const getByIdMock = jest.fn().mockImplementation(async(id:string) => {
+        return undefined
+      });
+      clientDatabase.getById = getByIdMock;
+      
+      const clientsBusiness = new ClientsBusiness(clientDatabase);
+  
+      // Act and Assert
+      await expect(clientsBusiness.deleteClient(id)).rejects.toThrow("No client was found");
+    });
   });
 

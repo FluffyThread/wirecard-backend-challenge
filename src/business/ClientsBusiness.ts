@@ -1,16 +1,20 @@
 import { ClientsDatabase } from "../data/ClientsDatabase";
+import { PaymentDatabase } from "../data/PaymentDatabase";
 import { ClientsDTO, client } from "../models/ClientsDTO";
 import { IdGenerator } from "../services/IdGenerator";
 
 
 const idGenerator = new IdGenerator()
+const paymentDatabase = new PaymentDatabase()
 
 export class ClientsBusiness {
 
     clientDatabase: ClientsDatabase;
 
+
     constructor(clientDatabase: ClientsDatabase) {
-      this.clientDatabase = clientDatabase;
+      this.clientDatabase = clientDatabase
+
     }
 
     register = async(client:client) => {
@@ -35,12 +39,28 @@ export class ClientsBusiness {
     }
 
     getClientWithPayments = async(userId:string) => {
-        if (!userId) {
-            throw new Error("Missing ID");
+        try {
+            if (!userId) {
+                throw new Error("Missing ID");
+            }
+            let client = await this.clientDatabase.getById(userId)
+            if (!client) {
+                throw new Error("Client does not exist");
+            }
+            let payments = await paymentDatabase.getPaymentByUserId(userId)
+            console.log(payments);
+            
+            if (!payments) {
+                throw new Error("This client has not made any payment yet");   
+            }
+            let response = await this.clientDatabase.getClientWithPayments(userId)
+    
+            return response
+            
+        } catch (error:any) {
+            throw new Error(error.message);
+            
         }
-        let response = this.clientDatabase.getClientWithPayments(userId)
-
-        return response
 
     }
 
@@ -61,10 +81,11 @@ export class ClientsBusiness {
             if (!id) {
                 throw new Error("Missing ID");    
             }
-            let result:ClientsDTO[] = await this.clientDatabase.getById(id)
+            let result:ClientsDTO = await this.clientDatabase.getById(id)
             if (!result) {
                 throw new Error("No client was found");
             }
+            
             await this.clientDatabase.deleteClient(id)
             let response = {
                 status:"Client was successfully deleted!",

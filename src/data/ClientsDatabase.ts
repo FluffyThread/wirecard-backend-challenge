@@ -73,7 +73,7 @@ export class ClientsDatabase extends BaseDatabase {
         }
     }
 
-    getById = async(id:string):Promise<ClientsDTO[]> => {
+    getById = async(id:string):Promise<ClientsDTO> => {
         try {
             let response = await BaseDatabase.connection(ClientsDatabase.TABLE_NAME)
             .select()

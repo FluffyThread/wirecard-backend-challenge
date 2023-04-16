@@ -25,6 +25,20 @@ export class PaymentDatabase extends BaseDatabase {
         }
     }
 
+    getPaymentByUserId = async (clientId: string) => {
+        try {
+            let result = await BaseDatabase.connection(PaymentDatabase.TABLE_NAME)
+                .select()
+                .where('client_id', clientId)
+                if (result.length === 0) {
+                    return null;
+                }
+            return result
+        } catch (error: any) {
+            throw new Error(error.message || error.sqlMessage);
+        }
+    }
+
     updatePaymentStatus = async (id: string, status: string): Promise<void> => {
         try {
             await BaseDatabase.connection(`${PaymentDatabase.TABLE_NAME}`)
