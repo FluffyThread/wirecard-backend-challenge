@@ -116,16 +116,4 @@ export class PaymentBusiness {
         }
     }
 
-    // getClientPayments = async(id:string) => {
-    //     try {
-    //         const payments = await paymentDatabase.getClientPayments(id);
-    //         if (payments.length < 1) {
-    //             throw new Error("No payment has been made by this user");     
-    //         }
-    //         return payments;
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
-
 }

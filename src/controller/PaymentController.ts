@@ -55,13 +55,4 @@ export class PaymentController {
         }
       }
 
-    // getUserPayments = async (req: Request, res: Response) => {
-    //     try {
-    //       const userId = req.params.id;
-    //       const payments = await paymentBusiness.getClientPayments(userId);
-    //       res.status(200).send({ payments });
-    //     } catch (error:any) {
-    //       res.status(400).send({ error: error.message });
-    //     }
-    //   }
 }
