@@ -39,7 +39,12 @@ ou
 
 ## API 
 Para utilizar a API leia e siga corretamente as instruções da documentação:
-"ainda a colocar"
+
+[Documentação Postman](https://documenter.getpostman.com/view/22367197/2s93Y6szAe)
+
+#### Link do Render: 
+  
+https://wirecard-backend-cjallenge.onrender.com
 `
 
 ## Tecnologias utilizadas: 🚀
@@ -64,3 +69,4 @@ Para executar os testes da aplicação, basta executar o seguinte comando:
  2. Para testes na entidade 'payment'
 
 > `npm run test-payment`
+
