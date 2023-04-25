@@ -5,7 +5,6 @@ import { IdGenerator } from "../services/IdGenerator";
 
 
 const idGenerator = new IdGenerator()
-const paymentDatabase = new PaymentDatabase()
 
 export class ClientsBusiness {
 
@@ -85,7 +84,11 @@ export class ClientsBusiness {
             if (!result) {
                 throw new Error("No client was found");
             }
-            
+            let payment = await this.paymentDatabase.getPaymentByUserId(id)
+            let idPayment = payment?.[0].id
+            if(payment){
+            await this.paymentDatabase.deletePayment(idPayment)
+            }
             await this.clientDatabase.deleteClient(id)
             let response = {
                 status:"Client was successfully deleted!",

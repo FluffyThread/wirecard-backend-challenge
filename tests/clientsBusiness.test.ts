@@ -153,7 +153,10 @@ describe("getClientWithPayments", () => {
             deleteClient:jest.fn()
         } as unknown as ClientsDatabase;
 
-        clientsBusiness = new ClientsBusiness(clientsDatabase, paymentDatabase);
+        paymentDatabase = {
+          getPaymentByUserId:jest.fn()
+        } as unknown as PaymentDatabase
+        clientsBusiness = new ClientsBusiness(clientsDatabase, paymentDatabase );
     });
     test("Should delete a client", async () => {
         // Arrange
